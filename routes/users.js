@@ -7,6 +7,7 @@ const {
   getProfile,
   editProfile,
   addPicture,
+  updateArray,
 } = require("../controllers/users");
 
 router.post("/add-picture", fileUploader.single("profile_image"), addPicture);
@@ -15,6 +16,8 @@ router.post("/add-picture", fileUploader.single("profile_image"), addPicture);
 router.get("/profile/:id", getProfile);
 
 router.put("/profile-edit/:id", editProfile);
+
+router.put("/updateArray/:id", updateArray)
 
 router.get("/profile/delete/:id", profileDelete);
 

@@ -22,7 +22,7 @@ const chat = async (req, res) => {
         content: `Hello my name is ${user.name}`}
     ]; 
     const completion = await getChatCompletion(messages);
-
+       console.log({User: messages[1].content, ChatMD: completion})
     res.json({User: messages[1].content, ChatMD: completion});
   } catch (err) {
     console.error(err);

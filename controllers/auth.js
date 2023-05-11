@@ -32,6 +32,7 @@ const signupUser = async (req, res) => {
       email: createdUser.email,
       image: createdUser.profile_image,
       username: createdUser.username,
+      name: createdUser.name,
       age: createdUser.age
     };
 
@@ -39,6 +40,8 @@ const signupUser = async (req, res) => {
       algorithm: "HS256",
       expiresIn: "24hr",
     });
+
+   console.log("Token:", token, "Payload:", payload);
 
     return res.json({ token, id: createdUser._id, payload });
   } catch (error) {
@@ -70,6 +73,7 @@ const loginUser = async (req, res) => {
         email: foundUser.email,
         image: foundUser.profile_image,
         username: foundUser.username,
+        name: foundUser.name,
         age: foundUser.age
       };
 

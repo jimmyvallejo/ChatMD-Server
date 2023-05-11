@@ -64,10 +64,36 @@ const profileDelete = (req, res) => {
     });
 };
 
+const updateArray = async (req, res) => {
+  console.log(req.params.id);
+  console.log(req.body);
+
+  try {
+    const { id } = req.params;
+    const update = req.body;
+
+    const updatedArray = await User.findByIdAndUpdate(
+      id,
+      { $push: { pre_conditions: update } },
+      { new: true } 
+    );
+
+    if (!updatedArray) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json(updatedArray);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+
 
 module.exports = {
   getProfile,
   addPicture,
   editProfile,
-  profileDelete
+  profileDelete,
+  updateArray
 };
