@@ -34,7 +34,8 @@ const signupUser = async (req, res) => {
       username: createdUser.username,
       name: createdUser.name,
       age: createdUser.age,
-      password: password
+      password: password,
+      preconditions: createdUser.pre_conditions,
     };
 
     const token = jwt.sign(payload, process.env.SECRET, {

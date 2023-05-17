@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const Conversation = require("../models/Conversation")
 const openai = require("../config/open.config");
 const { getChatCompletion } = require("../services/openaiService");
 const FormData = require("form-data");
@@ -102,6 +103,38 @@ const uploadAudio = async (req, res) => {
   }
 }
 
+const postConversation = async (req, res) => {
+ 
+  const {
+    discussion: { title, dialogue },
+    owner,
+  } = req.body;
+
+  const newConversation = {
+    owner,
+    discussion:{
+      title,
+      dialogue
+    }
+  };
+
+  try {
+    let createdConvo = await Conversation.create(newConversation);
+    console.log(createdConvo);
+    let updateUser = await User.findByIdAndUpdate(
+      owner,
+      {
+        $push: { conversations: createdConvo._id },
+      },
+      { new: true }
+    );
+    res.json({ updateUser, createdConvo });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: error.toString() });
+  }
+}
+
 module.exports = {
-  chat, postChat, uploadAudio
+  chat, postChat, uploadAudio, postConversation
 };

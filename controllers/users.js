@@ -13,16 +13,18 @@ const addPicture = (req, res) => {
 };
 
 
-const getProfile = (req, res) => {
-  const { id } = req.params;
-  User.findById(id)
-    .then((user) => {
-      res.json(user);
-    })
-    .catch((error) => {
-      console.error(error);
-      res.status(500).json({ message: "Internal server error" });
+const getUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const foundUser = await User.findById(id).populate({
+      path: "conversations",
+      options: { sort: { createdAt: -1 } },
     });
+    res.json(foundUser);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ error: err.toString() });
+  }
 };
 
 const editProfile = async (req, res) => {
@@ -98,7 +100,7 @@ const updateArray = async (req, res) => {
 
 
 module.exports = {
-  getProfile,
+  getUser,
   addPicture,
   editProfile,
   profileDelete,

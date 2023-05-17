@@ -27,6 +27,7 @@ const userSchema = new Schema(
       default:
         "https://media.istockphoto.com/id/1028847418/vector/doctor-visit-with-patient-for-medicine-concept.jpg?s=612x612&w=0&k=20&c=0w5u7ShrukF7Jk_IgqBDRhW-3MfOJzuRurkIgSF9Wow=",
     },
+    conversations: [{ type: Schema.Types.ObjectId, ref: "Conversation" }],
   },
   {
     timeseries: true,

@@ -4,7 +4,7 @@ const fileUploader = require("../config/cloudinary.config");
 
 const {
   profileDelete,
-  getProfile,
+  getUser,
   editProfile,
   addPicture,
   updateArray,
@@ -13,7 +13,7 @@ const {
 router.post("/add-picture", fileUploader.single("profile_image"), addPicture);
 
 
-router.get("/profile/:id", getProfile);
+router.get("/:id", getUser);
 
 router.put("/profile-edit/:id", editProfile);
 
