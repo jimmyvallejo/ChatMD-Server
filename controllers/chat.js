@@ -1,6 +1,8 @@
 const User = require("../models/User");
 const openai = require("../config/open.config");
 const { getChatCompletion } = require("../services/openaiService");
+const FormData = require("form-data");
+const axios = require('axios')
 
 
 const chat = async (req, res) => {
@@ -71,6 +73,35 @@ const postChat = async (req, res) => {
   }
 };
 
+const uploadAudio = async (req, res) => {
+  const audioFile = req.file.buffer;
+
+  const formData = new FormData();
+  formData.append("file", audioFile, {
+    contentType: "audio/mp3",
+    filename: "tempfile." + req.file.mimetype.split("/")[1],
+  });
+  formData.append("model", "whisper-1");
+
+  try {
+    const response = await axios.post(
+      "https://api.openai.com/v1/audio/transcriptions",
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.OPENAI_KEY}`,
+          ...formData.getHeaders(),
+        },
+      }
+    );
+   console.log(response.data)
+    res.json(response.data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error transcribing audio");
+  }
+}
+
 module.exports = {
-  chat, postChat
+  chat, postChat, uploadAudio
 };

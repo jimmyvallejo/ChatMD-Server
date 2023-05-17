@@ -33,7 +33,8 @@ const signupUser = async (req, res) => {
       image: createdUser.profile_image,
       username: createdUser.username,
       name: createdUser.name,
-      age: createdUser.age
+      age: createdUser.age,
+      password: password
     };
 
     const token = jwt.sign(payload, process.env.SECRET, {
@@ -74,7 +75,9 @@ const loginUser = async (req, res) => {
         image: foundUser.profile_image,
         username: foundUser.username,
         name: foundUser.name,
-        age: foundUser.age
+        age: foundUser.age,
+        password: password,
+        preconditions: foundUser.pre_conditions
       };
 
       const token = jwt.sign(payload, process.env.SECRET, {

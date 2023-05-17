@@ -1,12 +1,16 @@
 
 const User = require("../models/User");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
+
+
+
+const saltRounds = 10;
 
 const addPicture = (req, res) => {
   res.json(req.file.path);
 };
-
-
 
 
 const getProfile = (req, res) => {
@@ -23,7 +27,7 @@ const getProfile = (req, res) => {
 
 const editProfile = async (req, res) => {
   const { id } = req.params;
-  const { name, email, profile_image, username } = req.body;
+  const { name, email, profile_image, username, password } = req.body;
   try {
     const existingUser = await User.findOne({
       $or: [{ email: email }, { _id: id }],
@@ -34,6 +38,9 @@ const editProfile = async (req, res) => {
         .status(400)
         .json({ message: "Email or username already exists" });
     }
+
+    const salt = bcrypt.genSaltSync(saltRounds);
+    const hashedPass = bcrypt.hashSync(password, salt);
 
     const updatedUser = await User.findByIdAndUpdate(
       { _id: id},
