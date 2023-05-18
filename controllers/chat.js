@@ -79,7 +79,7 @@ const uploadAudio = async (req, res) => {
 
   const formData = new FormData();
   formData.append("file", audioFile, {
-    contentType: "audio/mp3",
+    contentType: "audio/wav",
     filename: "tempfile." + req.file.mimetype.split("/")[1],
   });
   formData.append("model", "whisper-1");
