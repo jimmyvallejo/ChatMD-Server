@@ -45,7 +45,7 @@ const postChat = async (req, res) => {
         {
           role: "system",
           content:
-            "You are an online doctor treating me for any ailments or illnesses I may have.",
+            "You are ChatMD an online doctor treating me for any ailments or illnesses I may have.",
         },
         { role: "user", content: message },
       ];
@@ -54,7 +54,7 @@ const postChat = async (req, res) => {
         {
           role: "system",
           content:
-            "You are an online doctor treating me for any ailments or illnesses I may have.",
+            "You are ChatMD an online doctor treating me for any ailments or illnesses I may have.",
         },
         {
           role: "user",
