@@ -10,6 +10,7 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var authRouter = require("./routes/auth");
 var chatRouter = require("./routes/chat");
+var providersRouter = require("./routes/providers")
 
 var app = express();
 
@@ -40,6 +41,7 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/auth", authRouter);
 app.use("/chat", chatRouter)
+app.use("/providers", providersRouter)
 
 app.use(function (req, res, next) {
   next(createError(404));
