@@ -1,10 +1,9 @@
 const User = require("../models/User");
-const Conversation = require("../models/Conversation")
+const Conversation = require("../models/Conversation");
 const openai = require("../config/open.config");
 const { getChatCompletion } = require("../services/openaiService");
 const FormData = require("form-data");
-const axios = require('axios')
-
+const axios = require("axios");
 
 const chat = async (req, res) => {
   const { id } = req.params;
@@ -19,26 +18,25 @@ const chat = async (req, res) => {
     const messages = [
       {
         role: "system",
-       content: "You are an online doctor treating me for any ailments or illnesses I may have.",
+        content:
+          "You are an online doctor treating me for any ailments or illnesses I may have.",
       },
-      {role: "user",
-        content: `Hello my name is ${user.name}`}
-    ]; 
+      { role: "user", content: `Hello my name is ${user.name}` },
+    ];
     const completion = await getChatCompletion(messages);
-       console.log({User: messages[1].content, ChatMD: completion})
-    res.json({User: messages[1].content, ChatMD: completion});
+    console.log({ User: messages[1].content, ChatMD: completion });
+    res.json({ User: messages[1].content, ChatMD: completion });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Internal server error." });
   }
 };
 
-
 const postChat = async (req, res) => {
   const { pre_conditions, message } = req.body;
 
   try {
-    let messages; 
+    let messages;
 
     if (!pre_conditions) {
       messages = [
@@ -95,16 +93,15 @@ const uploadAudio = async (req, res) => {
         },
       }
     );
-   console.log(response.data)
+    console.log(response.data);
     res.json(response.data);
   } catch (error) {
     console.error(error);
     res.status(500).send("Error transcribing audio");
   }
-}
+};
 
 const postConversation = async (req, res) => {
- 
   const {
     discussion: { title, dialogue },
     owner,
@@ -112,10 +109,10 @@ const postConversation = async (req, res) => {
 
   const newConversation = {
     owner,
-    discussion:{
+    discussion: {
       title,
-      dialogue
-    }
+      dialogue,
+    },
   };
 
   try {
@@ -133,8 +130,11 @@ const postConversation = async (req, res) => {
     console.error(error);
     res.status(500).send({ error: error.toString() });
   }
-}
+};
 
 module.exports = {
-  chat, postChat, uploadAudio, postConversation
+  chat,
+  postChat,
+  uploadAudio,
+  postConversation,
 };
