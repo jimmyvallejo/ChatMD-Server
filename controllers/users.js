@@ -30,7 +30,13 @@ const getUser = async (req, res) => {
 const editProfile = async (req, res) => {
   const { id } = req.params;
   const { name, email, profile_image, username, password } = req.body;
+  
   try {
+    if (email === "demouser@demo.com"){
+      console.log("Demo account can not edit profile")
+      res.status(500).json("Demo account can not edit profile")
+     
+    }
     const existingUser = await User.findOne({
       $or: [{ email: email }, { _id: id }],
     });
